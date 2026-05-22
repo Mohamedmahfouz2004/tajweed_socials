@@ -1,0 +1,25 @@
+{
+  "title": "تَجْوِيد.ai",
+  "description": "المنصة الذكية الأولى لتعلم التجويد بالذكاء الاصطناعي",
+  "logo": "/uploads/1779489765817.png",
+  "links": [
+    {
+      "id": "1",
+      "title": "موقعنا الرسمي",
+      "url": "https://tajweed.ai",
+      "icon": "Globe"
+    },
+    {
+      "id": "2",
+      "title": "تواصل معنا واتساب",
+      "url": "https://wa.me/1234567890",
+      "icon": "Whatsapp"
+    },
+    {
+      "id": "3",
+      "title": "صفحة الفيسبوك",
+      "url": "https://facebook.com",
+      "icon": "Facebook"
+    }
+  ]
+}
