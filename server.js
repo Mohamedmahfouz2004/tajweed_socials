@@ -3,6 +3,7 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
+import mongoose from 'mongoose';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -13,26 +14,20 @@ app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-const DATA_FILE = path.join(__dirname, 'data.json');
+// Connect to MongoDB
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://tajweed_social_1287:Mohamed1%40@cluster0.sk6jwnj.mongodb.net/tajweed_socials?appName=Cluster0';
+mongoose.connect(MONGO_URI).then(() => console.log('Connected to MongoDB')).catch(err => console.error('MongoDB connection error:', err));
 
-// Ensure uploads folder exists
-if (!fs.existsSync(path.join(__dirname, 'uploads'))) {
-    fs.mkdirSync(path.join(__dirname, 'uploads'));
-}
-
-// Ensure data file exists
-if (!fs.existsSync(DATA_FILE)) {
-    fs.writeFileSync(DATA_FILE, JSON.stringify({ title: "تَجْوِيد.ai", description: "", logo: "", links: [] }));
-}
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
+// MongoDB Schema
+const profileSchema = new mongoose.Schema({
+    title: { type: String, default: "تَجْوِيد.ai" },
+    description: { type: String, default: "" },
+    logo: { type: String, default: "" },
+    links: { type: Array, default: [] }
 });
+const Profile = mongoose.model('Profile', profileSchema);
+
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // Admin Password Check
@@ -55,30 +50,50 @@ app.post('/api/auth', (req, res) => {
     }
 });
 
-app.get('/api/data', (req, res) => {
-    const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
-    res.json(data);
+app.get('/api/data', async (req, res) => {
+    try {
+        let profile = await Profile.findOne();
+        if (!profile) {
+            profile = await Profile.create({ title: "تَجْوِيد.ai" });
+        }
+        res.json(profile);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
 });
 
-app.post('/api/data', (req, res) => {
+app.post('/api/data', async (req, res) => {
     try {
-        fs.writeFileSync(DATA_FILE, JSON.stringify(req.body, null, 2));
+        let profile = await Profile.findOne();
+        if (!profile) {
+            profile = new Profile();
+        }
+        profile.title = req.body.title;
+        profile.description = req.body.description;
+        profile.links = req.body.links;
+        await profile.save();
         res.json({ success: true });
     } catch (error) {
         res.status(500).json({ error: 'Failed to save data' });
     }
 });
 
-app.post('/api/upload', upload.single('logo'), (req, res) => {
+app.post('/api/upload', upload.single('logo'), async (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-    const logoUrl = `/uploads/${req.file.filename}`;
     
-    // Update data.json with new logo
-    const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
-    data.logo = logoUrl;
-    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-    
-    res.json({ success: true, logoUrl });
+    try {
+        const base64Image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+        
+        let profile = await Profile.findOne();
+        if (!profile) profile = new Profile();
+        
+        profile.logo = base64Image;
+        await profile.save();
+        
+        res.json({ success: true, logoUrl: base64Image });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to save image' });
+    }
 });
 
 // Serve frontend in production
