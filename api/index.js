@@ -65,13 +65,23 @@ app.post('/api/data', async (req, res) => {
     try {
         let profile = await Profile.findOne();
         if (!profile) {
-            profile = new Profile();
+            profile = await Profile.create({
+                title: req.body.title,
+                description: req.body.description,
+                links: req.body.links
+            });
+        } else {
+            await Profile.updateOne(
+                { _id: profile._id },
+                { 
+                    $set: {
+                        title: req.body.title,
+                        description: req.body.description,
+                        links: req.body.links
+                    }
+                }
+            );
         }
-        profile.title = req.body.title;
-        profile.description = req.body.description;
-        profile.links = req.body.links;
-        profile.markModified('links'); // Force Mongoose to save the array
-        await profile.save();
         res.json({ success: true });
     } catch (error) {
         res.status(500).json({ error: 'Failed to save data' });
