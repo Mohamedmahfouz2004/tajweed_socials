@@ -124,7 +124,7 @@ const AdminDashboard = () => {
                   <label className="block text-sm font-bold text-gray-700 mb-2">الشعار (Logo)</label>
                   <div className="flex items-center gap-4">
                     {formData.logo ? (
-                      <img src={`${import.meta.env.DEV ? 'http://localhost:4002' : ''}${formData.logo}`} className="w-16 h-16 rounded-full border-2 border-islamic-gold object-cover" alt="Logo" />
+                      <img src={formData.logo} className="w-16 h-16 rounded-full border-2 border-islamic-gold object-cover" alt="Logo" />
                     ) : (
                       <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center"><ImageIcon className="text-gray-400" /></div>
                     )}
@@ -190,7 +190,7 @@ const AdminDashboard = () => {
                     fgColor={"#065f46"} 
                     bgColor={"#ffffff"} 
                     imageSettings={{
-                      src: formData.logo ? `${import.meta.env.DEV ? 'http://localhost:4002' : ''}${formData.logo}` : '/husary.png',
+                      src: formData.logo ? formData.logo : '/husary.png',
                       x: undefined,
                       y: undefined,
                       height: 50,

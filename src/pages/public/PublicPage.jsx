@@ -92,7 +92,7 @@ const PublicPage = () => {
           <div className="relative mb-6">
             <div className="absolute inset-0 bg-islamic-gold/20 rounded-full blur-xl animate-pulse"></div>
             {data.logo ? (
-              <img src={`${import.meta.env.DEV ? 'http://localhost:4002' : ''}${data.logo}`} className="w-32 h-32 rounded-full border-4 border-white shadow-xl object-cover relative z-10" alt="Logo" />
+              <img src={data.logo} className="w-32 h-32 rounded-full border-4 border-white shadow-xl object-cover relative z-10" alt="Logo" />
             ) : (
               <div className="w-32 h-32 rounded-full bg-white border-4 border-islamic-beige shadow-xl flex items-center justify-center relative z-10">
                 <LucideIcons.BookOpen className="text-islamic-emerald" size={48} />
