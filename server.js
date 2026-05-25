@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Connect to MongoDB
@@ -79,10 +79,20 @@ app.post('/api/data', async (req, res) => {
 });
 
 app.post('/api/upload', upload.single('logo'), async (req, res) => {
-    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-    
     try {
-        const base64Image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+        let base64Image = '';
+        
+        // Handle JSON base64 upload
+        if (req.body && req.body.logo) {
+            base64Image = req.body.logo;
+        } 
+        // Handle Form Data upload
+        else if (req.file) {
+            base64Image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+        } 
+        else {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
         
         let profile = await Profile.findOne();
         if (!profile) profile = new Profile();

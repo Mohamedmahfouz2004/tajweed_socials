@@ -22,23 +22,30 @@ const AdminDashboard = () => {
 
   const handleLogoUpload = async () => {
     if (!logoFile) return;
-    const form = new FormData();
-    form.append('logo', logoFile);
-
-    try {
-      const API_URL = import.meta.env.DEV ? 'http://localhost:4002' : '';
-      const res = await fetch(`${API_URL}/api/upload`, {
-        method: 'POST',
-        body: form
-      });
-      const result = await res.json();
-      if (result.success) {
-        setFormData({ ...formData, logo: result.logoUrl });
-        alert('تم رفع الشعار بنجاح');
+    
+    // Read file as Base64 on the client to avoid Vercel Multer issues
+    const reader = new FileReader();
+    reader.readAsDataURL(logoFile);
+    reader.onloadend = async () => {
+      try {
+        const base64Image = reader.result;
+        const API_URL = import.meta.env.DEV ? 'http://localhost:4002' : '';
+        const res = await fetch(`${API_URL}/api/upload`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ logo: base64Image })
+        });
+        const result = await res.json();
+        if (result.success) {
+          setFormData({ ...formData, logo: result.logoUrl });
+          alert('تم رفع الشعار بنجاح');
+        } else {
+          alert('خطأ أثناء رفع الشعار');
+        }
+      } catch (e) {
+        alert('خطأ أثناء الاتصال بالخادم');
       }
-    } catch (e) {
-      alert('خطأ أثناء رفع الشعار');
-    }
+    };
   };
 
   const addLink = () => {
