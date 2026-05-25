@@ -15,7 +15,38 @@ const AdminDashboard = () => {
   }, [data]);
 
   const handleSave = async () => {
-    const res = await updateData(formData);
+    let currentFormData = { ...formData };
+    
+    // Automatically upload logo if a file is selected but not uploaded yet
+    if (logoFile) {
+      const reader = new FileReader();
+      const base64Promise = new Promise((resolve) => {
+        reader.readAsDataURL(logoFile);
+        reader.onloadend = () => resolve(reader.result);
+      });
+      
+      const base64Image = await base64Promise;
+      const API_URL = import.meta.env.DEV ? 'http://localhost:4002' : '';
+      
+      try {
+        const uploadRes = await fetch(`${API_URL}/api/upload`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ logo: base64Image })
+        });
+        const uploadResult = await uploadRes.json();
+        
+        if (uploadResult.success) {
+          currentFormData.logo = uploadResult.logoUrl;
+          setFormData(currentFormData);
+          setLogoFile(null); // Clear the file input state so it doesn't re-upload
+        }
+      } catch (e) {
+        console.error("Failed to auto-upload logo");
+      }
+    }
+
+    const res = await updateData(currentFormData);
     if (res.success) alert('تم حفظ التغييرات بنجاح');
     else alert('حدث خطأ أثناء الحفظ');
   };
