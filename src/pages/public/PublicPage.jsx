@@ -91,17 +91,7 @@ const PublicPage = () => {
         >
           <div className="relative mb-6">
             <div className="absolute inset-0 bg-islamic-gold/20 rounded-full blur-xl animate-pulse"></div>
-            {data.logo ? (
-              <img src={data.logo} className="w-32 h-32 rounded-full border-4 border-white shadow-xl object-cover relative z-10" alt="Logo" />
-            ) : (
-              <div className="w-32 h-32 rounded-full bg-white border-4 border-islamic-beige shadow-xl flex items-center justify-center relative z-10">
-                <LucideIcons.BookOpen className="text-islamic-emerald" size={48} />
-              </div>
-            )}
-            {/* Islamic Star Badge */}
-            <div className="absolute -bottom-2 -right-2 bg-islamic-gold text-white p-2 rounded-full shadow-lg z-20 border-2 border-white">
-              <LucideIcons.Sparkles size={16} />
-            </div>
+            <img src="/newlogo.svg" className="w-32 h-32 rounded-full border-4 border-white shadow-xl object-cover relative z-10" alt="Logo" />
           </div>
 
           <h1 className="text-3xl font-amiri font-bold text-gray-900 mb-3">
