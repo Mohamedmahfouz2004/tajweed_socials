@@ -11,7 +11,7 @@ const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('links');
 
   useEffect(() => {
-    if (data) setFormData(data);
+    if (data) setFormData({ ...data, links: data.links || [] });
   }, [data]);
 
   const handleSave = async () => {
@@ -147,7 +147,7 @@ const AdminDashboard = () => {
 
             {activeTab === 'links' && (
               <div className="space-y-4">
-                {formData.links.map((link, index) => (
+                {formData.links && formData.links.map((link, index) => (
                   <div key={link.id} className="p-4 border border-gray-100 rounded-2xl bg-gray-50/50 flex flex-col md:flex-row gap-4 relative group">
                     <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button onClick={() => removeLink(link.id)} className="text-red-500 hover:bg-red-50 p-2 rounded-lg"><Trash2 size={18} /></button>
