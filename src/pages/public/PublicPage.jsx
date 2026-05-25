@@ -90,7 +90,7 @@ const PublicPage = () => {
           className="flex flex-col items-center text-center mb-12"
         >
           <div className="relative mb-6">
-            <img src="/newlogo.svg" className="w-36 h-36 relative z-10" alt="Logo" />
+            <img src={data.logo || "/newlogo.svg"} className="w-36 h-36 relative z-10 rounded-full object-cover" alt="Logo" />
           </div>
 
           <h1 className="text-3xl font-amiri font-bold text-gray-900 mb-3">

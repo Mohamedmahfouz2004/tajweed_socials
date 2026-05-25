@@ -70,7 +70,8 @@ app.post('/api/data', async (req, res) => {
             profile = await Profile.create({
                 title: req.body.title,
                 description: req.body.description,
-                links: req.body.links
+                links: req.body.links,
+                logo: req.body.logo
             });
         } else {
             await Profile.updateOne(
@@ -79,7 +80,8 @@ app.post('/api/data', async (req, res) => {
                     $set: {
                         title: req.body.title,
                         description: req.body.description,
-                        links: req.body.links
+                        links: req.body.links,
+                        logo: req.body.logo
                     }
                 }
             );
