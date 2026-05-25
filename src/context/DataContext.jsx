@@ -12,7 +12,7 @@ export const DataProvider = ({ children }) => {
     try {
       setLoading(true);
       const API_URL = import.meta.env.DEV ? 'http://localhost:4002' : '';
-      const res = await fetch(`${API_URL}/api/data`);
+      const res = await fetch(`${API_URL}/api/data?t=${Date.now()}`);
       const d = await res.json();
       setData(d);
     } catch (e) {

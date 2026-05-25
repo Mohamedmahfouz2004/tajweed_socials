@@ -44,6 +44,12 @@ app.post('/api/auth', (req, res) => {
 });
 
 app.get('/api/data', async (req, res) => {
+    // Prevent Vercel from caching the API response
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('Surrogate-Control', 'no-store');
+    
     try {
         let profile = await Profile.findOne();
         if (!profile) {
