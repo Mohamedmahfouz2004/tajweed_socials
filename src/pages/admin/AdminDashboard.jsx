@@ -208,15 +208,15 @@ const AdminDashboard = () => {
             {activeTab === 'links' && (
               <div className="space-y-4">
                 {formData.links && formData.links.map((link, index) => (
-                  <div key={link.id} className="p-4 border border-gray-100 rounded-2xl bg-gray-50/50 flex flex-col md:flex-row gap-4 relative group">
-                    <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => removeLink(link.id)} className="text-red-500 hover:bg-red-50 p-2 rounded-lg"><Trash2 size={18} /></button>
+                  <div key={link.id} className="p-4 border border-gray-100 rounded-2xl bg-gray-50/50 flex flex-col gap-4 relative group">
+                    <div className="absolute top-2 left-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                      <button onClick={() => removeLink(link.id)} className="text-red-500 bg-red-50 hover:bg-red-100 md:bg-transparent md:hover:bg-red-50 p-2 rounded-lg shadow-sm md:shadow-none transition-all"><Trash2 size={18} /></button>
                     </div>
                     
-                    <div className="flex-1 space-y-3">
-                      <div className="flex gap-3">
+                    <div className="flex-1 space-y-3 pt-6 md:pt-0">
+                      <div className="flex flex-col sm:flex-row gap-3">
                         <input type="text" placeholder="عنوان الرابط" className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-islamic-emerald/50 outline-none" value={link.title} onChange={e => updateLink(link.id, 'title', e.target.value)} />
-                        <select className="w-40 px-4 py-2.5 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-islamic-emerald/50" value={link.icon} onChange={e => updateLink(link.id, 'icon', e.target.value)}>
+                        <select className="w-full sm:w-40 px-4 py-2.5 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-islamic-emerald/50" value={link.icon} onChange={e => updateLink(link.id, 'icon', e.target.value)}>
                           {['Globe', 'Facebook', 'Whatsapp', 'Instagram', 'Youtube', 'Linkedin', 'Twitter', 'Telegram', 'Tiktok', 'Snapchat', 'Discord', 'Github', 'Mail', 'Phone', 'MapPin'].map(icon => (
                             <option key={icon} value={icon}>{icon}</option>
                           ))}
