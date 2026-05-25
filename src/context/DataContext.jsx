@@ -29,13 +29,14 @@ export const DataProvider = ({ children }) => {
   const updateData = async (newData) => {
     try {
       const API_URL = import.meta.env.DEV ? 'http://localhost:4002' : '';
-      await fetch(`${API_URL}/api/data`, {
+      const res = await fetch(`${API_URL}/api/data`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(newData)
       });
+      if (!res.ok) throw new Error('Save failed');
       setData(newData);
       return { success: true };
     } catch (e) {
