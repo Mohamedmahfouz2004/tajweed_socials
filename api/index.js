@@ -70,6 +70,7 @@ app.post('/api/data', async (req, res) => {
         profile.title = req.body.title;
         profile.description = req.body.description;
         profile.links = req.body.links;
+        profile.markModified('links'); // Force Mongoose to save the array
         await profile.save();
         res.json({ success: true });
     } catch (error) {

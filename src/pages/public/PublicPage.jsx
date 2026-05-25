@@ -90,8 +90,7 @@ const PublicPage = () => {
           className="flex flex-col items-center text-center mb-12"
         >
           <div className="relative mb-6">
-            <div className="absolute inset-0 bg-islamic-gold/20 rounded-full blur-xl animate-pulse"></div>
-            <img src="/newlogo.svg" className="w-32 h-32 rounded-full border-4 border-white shadow-xl object-cover relative z-10" alt="Logo" />
+            <img src="/newlogo.svg" className="w-36 h-36 relative z-10" alt="Logo" />
           </div>
 
           <h1 className="text-3xl font-amiri font-bold text-gray-900 mb-3">
