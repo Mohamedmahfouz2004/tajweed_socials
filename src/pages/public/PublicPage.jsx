@@ -54,6 +54,31 @@ const PublicPage = () => {
     }
   };
 
+  const formatUrl = (url, iconName) => {
+    if (!url) return '#';
+    let formattedUrl = url.trim();
+    
+    // If it already starts with a protocol, return it directly
+    if (/^(https?:\/\/|mailto:|tel:|whatsapp:)/i.test(formattedUrl)) {
+      return formattedUrl;
+    }
+
+    // Process based on icon type
+    if (iconName === 'Whatsapp') {
+      // Remove all non-numeric characters except +
+      const cleanNumber = formattedUrl.replace(/[^\d+]/g, '');
+      return `https://wa.me/${cleanNumber}`;
+    } else if (iconName === 'Mail') {
+      return `mailto:${formattedUrl}`;
+    } else if (iconName === 'Phone') {
+      const cleanNumber = formattedUrl.replace(/[^\d+]/g, '');
+      return `tel:${cleanNumber}`;
+    } else {
+      // Default fallback: if it doesn't have a protocol, prepend https://
+      return `https://${formattedUrl}`;
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -119,7 +144,7 @@ const PublicPage = () => {
               <motion.a
                 key={link.id}
                 variants={itemVariants}
-                href={link.url}
+                href={formatUrl(link.url, link.icon)}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}

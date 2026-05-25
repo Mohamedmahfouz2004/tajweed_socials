@@ -83,7 +83,7 @@ const AdminDashboard = () => {
   const addLink = () => {
     setFormData({
       ...formData,
-      links: [...formData.links, { id: Date.now().toString(), title: 'رابط جديد', url: 'https://', icon: 'Globe' }]
+      links: [...formData.links, { id: Date.now().toString(), title: 'رابط جديد', url: '', icon: 'Globe' }]
     });
   };
 
@@ -222,7 +222,7 @@ const AdminDashboard = () => {
                           ))}
                         </select>
                       </div>
-                      <input type="text" placeholder="https://..." dir="ltr" className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-islamic-emerald/50 outline-none text-left" value={link.url} onChange={e => updateLink(link.id, 'url', e.target.value)} />
+                      <input type="text" placeholder="رابط، إيميل، أو رقم..." dir="ltr" className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-islamic-emerald/50 outline-none text-left" value={link.url} onChange={e => updateLink(link.id, 'url', e.target.value)} />
                     </div>
                   </div>
                 ))}
