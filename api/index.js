@@ -71,7 +71,7 @@ app.post('/api/data', async (req, res) => {
     }
 });
 
-app.post('/api/upload', upload.single('logo'), async (req, res) => {
+app.post('/api/upload', async (req, res) => {
     try {
         let base64Image = '';
         
