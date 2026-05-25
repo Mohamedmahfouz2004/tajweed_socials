@@ -93,8 +93,10 @@ const PublicPage = () => {
             <img src={data.logo || "/newlogo.svg"} className="w-36 h-36 relative z-10 rounded-full object-cover" alt="Logo" />
           </div>
 
-          <h1 className="text-3xl font-amiri font-bold text-gray-900 mb-3">
-            <bdi dir="rtl">{data.title || "تَجْوِيد.ai"}</bdi>
+          <h1 className="flex items-center justify-center drop-shadow-sm mb-3" dir="rtl" style={{ gap: '6px', flexDirection: 'row' }}>
+            <span style={{ fontFamily: '"Amiri Quran", serif', fontWeight: 'bold', fontSize: '32px', color: '#065f46' }}>تَجْوِيد</span>
+            <span style={{ fontFamily: '"Playfair Display", serif', fontWeight: 'bold', fontSize: '26px', color: '#d4af37' }}>.</span>
+            <span style={{ fontFamily: '"Playfair Display", serif', fontStyle: 'italic', fontWeight: 'bold', fontSize: '24px', color: '#d4af37', letterSpacing: '2px' }} dir="ltr">ai</span>
           </h1>
           <div className="flex items-center gap-2 mb-4 justify-center">
             <div className="h-[2px] w-12 bg-islamic-emerald/20"></div>
@@ -155,7 +157,11 @@ const PublicPage = () => {
         >
           <p dir="ltr" className="flex items-center justify-center gap-1">
             <span>Powered by</span>
-            <bdi dir="rtl" className="font-amiri font-bold text-lg">تَجْوِيد.ai</bdi>
+            <span className="flex items-center" dir="rtl" style={{ gap: '4px', flexDirection: 'row' }}>
+              <span style={{ fontFamily: '"Amiri Quran", serif', fontWeight: 'bold', fontSize: '18px', color: '#065f46' }}>تَجْوِيد</span>
+              <span style={{ fontFamily: '"Playfair Display", serif', fontWeight: 'bold', fontSize: '14px', color: '#d4af37' }}>.</span>
+              <span style={{ fontFamily: '"Playfair Display", serif', fontStyle: 'italic', fontWeight: 'bold', fontSize: '12px', color: '#d4af37', letterSpacing: '1px' }} dir="ltr">ai</span>
+            </span>
           </p>
         </motion.div>
 

@@ -88,7 +88,8 @@ app.post('/api/data', async (req, res) => {
         }
         res.json({ success: true });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to save data' });
+        console.error("Save Error:", error);
+        res.status(500).json({ error: 'Failed to save data', details: error.message });
     }
 });
 
