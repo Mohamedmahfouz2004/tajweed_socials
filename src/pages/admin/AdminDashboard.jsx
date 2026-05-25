@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
 import { motion } from 'framer-motion';
-import { LogOut, Save, Plus, Trash2, Globe, LayoutDashboard, Link as LinkIcon, Settings, Image as ImageIcon, QrCode, Download } from 'lucide-react';
+import { LogOut, Save, Plus, Trash2, Globe, LayoutDashboard, Link as LinkIcon, Settings, Image as ImageIcon, QrCode, Download, Menu, X } from 'lucide-react';
 import { QRCodeCanvas } from 'qrcode.react';
 
 const AdminDashboard = () => {
@@ -9,6 +9,7 @@ const AdminDashboard = () => {
   const [formData, setFormData] = useState({ title: '', description: '', logo: '', links: [] });
   const [logoFile, setLogoFile] = useState(null);
   const [activeTab, setActiveTab] = useState('links');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (data) setFormData({ ...data, links: data.links || [] });
@@ -105,13 +106,26 @@ const AdminDashboard = () => {
         style={{ backgroundImage: 'url(/husary.png)' }}
       ></div>
 
+      {/* Mobile Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-20 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        ></div>
+      )}
+
       {/* Sidebar */}
-      <div className="w-64 bg-white/90 backdrop-blur-md border-l border-gray-100 shadow-sm flex flex-col h-screen fixed right-0 z-20">
-        <div className="p-6 border-b border-gray-100 flex items-center gap-3">
-          <div className="w-10 h-10 bg-islamic-emerald rounded-lg flex items-center justify-center">
-            <LayoutDashboard className="text-white" size={20} />
+      <div className={`w-64 bg-white/90 backdrop-blur-md border-l border-gray-100 shadow-sm flex flex-col h-screen fixed right-0 z-30 transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'}`}>
+        <div className="p-6 border-b border-gray-100 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-islamic-emerald rounded-lg flex items-center justify-center">
+              <LayoutDashboard className="text-white" size={20} />
+            </div>
+            <h1 className="font-amiri font-bold text-xl text-islamic-emerald">الإدارة</h1>
           </div>
-          <h1 className="font-amiri font-bold text-xl text-islamic-emerald">الإدارة</h1>
+          <button className="md:hidden text-gray-500 hover:text-islamic-emerald" onClick={() => setIsSidebarOpen(false)}>
+            <X size={24} />
+          </button>
         </div>
         
         <nav className="flex-1 p-4 space-y-2">
@@ -137,15 +151,23 @@ const AdminDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 mr-64 p-8 relative z-10">
+      <div className="flex-1 md:mr-64 p-4 md:p-8 relative z-10 w-full transition-all">
         <div className="max-w-4xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-800">
-              {activeTab === 'links' ? 'إدارة الروابط' : activeTab === 'settings' ? 'الإعدادات العامة' : 'رمز الاستجابة السريع (QR Code)'}
-            </h2>
+          <div className="flex justify-between items-center mb-8 gap-4">
+            <div className="flex items-center gap-3">
+              <button 
+                className="md:hidden p-2 text-gray-600 hover:text-islamic-emerald hover:bg-islamic-emerald/10 rounded-xl transition-all"
+                onClick={() => setIsSidebarOpen(true)}
+              >
+                <Menu size={24} />
+              </button>
+              <h2 className="text-xl md:text-2xl font-bold text-gray-800">
+                {activeTab === 'links' ? 'إدارة الروابط' : activeTab === 'settings' ? 'الإعدادات العامة' : 'رمز الاستجابة السريع (QR Code)'}
+              </h2>
+            </div>
             {activeTab !== 'qrcode' && (
-              <button onClick={handleSave} className="flex items-center gap-2 bg-islamic-emerald text-white px-6 py-2.5 rounded-xl hover:bg-islamic-emerald/90 transition-all shadow-md shadow-islamic-emerald/20">
-                <Save size={18} /> حفظ التغييرات
+              <button onClick={handleSave} className="flex items-center gap-2 bg-islamic-emerald text-white px-4 md:px-6 py-2 md:py-2.5 rounded-xl hover:bg-islamic-emerald/90 transition-all shadow-md shadow-islamic-emerald/20 text-sm md:text-base">
+                <Save size={18} /> <span className="hidden sm:inline">حفظ التغييرات</span><span className="sm:hidden">حفظ</span>
               </button>
             )}
           </div>
