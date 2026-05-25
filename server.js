@@ -15,8 +15,10 @@ app.use(express.json({ limit: '10mb' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Connect to MongoDB
-const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://tajweed_social_1287:Mohamed1%40@cluster0.sk6jwnj.mongodb.net/tajweed_socials?appName=Cluster0';
-mongoose.connect(MONGO_URI).then(() => console.log('Connected to MongoDB')).catch(err => console.error('MongoDB connection error:', err));
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://Mahfouz1974:MohamedMahfouz2004%40@cluster0.ynqmfgi.mongodb.net/tajweed_socials?appName=Cluster0';
+mongoose.connect(MONGO_URI)
+    .then(() => console.log('Connected to MongoDB Atlas'))
+    .catch(err => console.error('MongoDB connection error:', err));
 
 // MongoDB Schema
 const profileSchema = new mongoose.Schema({
